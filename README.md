@@ -45,6 +45,19 @@ kubectl replace -f FILENAME
 
 ```
 ## 4. Expose MongoDB within the cluster
+Create a Kubernetes service that exposes the deployment on port 27017 using kubectl expose. Ensure that the service type is ClusterIP and the name of the service, mongo-service. 
+```
+kubectl expose deployment mongo-deployment --name=mongo-service --type=ClusterIP --port=27017
+kubectl get services
+```
+To store the configuration required to create the service in a Kubernetes manifest file, use the same command which you have used to create the service, but this time use the --dry-run flag to prevent the execution and store the output as YAML to a file named k8s-mongo-service.yml. The entire command will look as follows:
+```
+kubectl expose deployment mongo-deployment --name=mongo-service --type=ClusterIP --port=27017 --dry-run=client -o yaml > k8s-mongo-service.yaml
+```
+command to create the deployment from the file containing the manifest.
+```
+kubectl create -f k8s-mongo-service.yaml
+```
 ## 5. Store private Docker registry credentials
 ## 6. Create a Kubernetes deployment for EMP
 ## 7. Configure EMP to use MongoDB
